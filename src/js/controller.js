@@ -20,7 +20,7 @@ const timeout = function (s) {
 // https://forkify-api.herokuapp.com/api/v2/recipes/:id
 
 const API_KEY = '8244233a-6b08-4bc3-b939-ee8fb2a1410a'
-const URL = `https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886?key=${API_KEY}`
+const BASE_URL = `https://forkify-api.herokuapp.com/api/v2`
 
 const renderSpinner = function(parentEl){
   const markup = `
@@ -37,11 +37,14 @@ const renderSpinner = function(parentEl){
 
 const showRecipe = async function(){
   try {
-    // 1 - Loading Recipe
+    const id = window.location.hash.slice(1)
 
+    if(!id) return
+    
+    // 1 - Loading Recipe
     renderSpinner(recipeContainer)
 
-    const res = await fetch(URL)
+    const res = await fetch(BASE_URL+`/recipes/${id}?key=${API_KEY}`)
     const data = await res.json()
 
     if(!res.ok) throw new Error(`${data.message}(${res.status})`)
@@ -58,7 +61,6 @@ const showRecipe = async function(){
       ingredients:recipe.ingredients
     }
 
-    console.log(recipe)
 
     // 2 - Rendering Recipe
 
@@ -162,4 +164,12 @@ const showRecipe = async function(){
   }
 }
 
-showRecipe()
+
+// /#[uuid] - we can listen to change of the hash
+// 5ed6604591c37cdc054bce89
+
+window.addEventListener('hashchange',showRecipe)
+window.addEventListener('load',showRecipe)
+
+// const eventsName = ['hashChange','load']
+// eventsName.forEach(ev => window.addEventListener(ev,showRecipe) );

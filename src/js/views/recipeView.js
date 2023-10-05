@@ -16,6 +16,45 @@ class RecipeView {
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
+  renderMessage(message =  '') {
+    const markup = `
+      <div class="message">
+          <div>
+            <svg>
+              <use href="${icons}#icon-smile"></use>
+            </svg>
+          </div>
+          <p>${message}</p>
+        </div>
+    `;
+
+    this.#clear();
+
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  renderError(message) {
+    const markup = `
+      <div class="error">
+          <div>
+            <svg>
+              <use href="${icons}#icon-alert-triangle"></use>
+            </svg>
+          </div>
+          <p>${message}</p>
+        </div>
+    `;
+
+    this.#clear();
+
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  addHandlerRender(handler) {
+    window.addEventListener('hashchange', handler);
+    window.addEventListener('load', handler);
+  }
+
   #clear() {
     this.#parentElement.innerHTML = '';
   }
@@ -93,9 +132,7 @@ class RecipeView {
           <h2 class="heading--2">Recipe ingredients</h2>
           <ul class="recipe__ingredient-list">
 
-          ${this.#data.ingredients
-            .map(this.#generateIngMarkup)
-            .join('')}
+          ${this.#data.ingredients.map(this.#generateIngMarkup).join('')}
           </ul>
         </div>
 
@@ -123,14 +160,14 @@ class RecipeView {
       `;
   }
 
-  #generateIngMarkup(ing){
+  #generateIngMarkup(ing) {
     return `
         <li class="recipe__ingredient">
             <svg class="recipe__icon">
             <use href="${icons}#icon-check"></use>
             </svg>
             <div class="recipe__quantity">${
-            ing.quantity ? new Fraction(ing.quantity).toString() : ''
+              ing.quantity ? new Fraction(ing.quantity).toString() : ''
             }</div>
             <div class="recipe__description">
             <span class="recipe__unit">${ing.unit}</span>

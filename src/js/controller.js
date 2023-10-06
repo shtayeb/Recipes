@@ -50,15 +50,27 @@ const controlSearchResults = async function () {
  *
  * @param {number} gotoPage
  */
-const controllPagination = function (gotoPage) {
+const controlPagination = function (gotoPage) {
   resultsView.render(model.getSearchResultsPage(gotoPage));
 
   paginationView.render(model.state.search);
 };
 
+/**
+ *
+ * @param {number} newServings
+ */
+const controlServings = function (newServings) {
+  // Update the recipe servings in state
+  model.updateServings(newServings);
+  // update the recipeView
+  recipeView.render(model.state.recipe);
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  recipeView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSearch(controlSearchResults);
-  paginationView.addHandlerClick(controllPagination);
+  paginationView.addHandlerClick(controlPagination);
 };
 init();

@@ -3,6 +3,13 @@ import icons from 'url:../../img/icons.svg'; // parcel 2
 // @ts-ignore
 import { Fraction } from 'fractional';
 import View from './view';
+
+/**
+ * @typedef {Object} Ingredient
+ * @property {number} quantity - The quantity of the ingredient
+ * @property {string} unit - The unit of the ingredient
+ * @property {string} description - The description of the ingredient
+ */
 class RecipeView extends View {
   /**
    * @type {import('../model').Recipe}
@@ -20,6 +27,23 @@ class RecipeView extends View {
   addHandlerRender(handler) {
     window.addEventListener('hashchange', handler);
     window.addEventListener('load', handler);
+  }
+
+  /**
+   * @param {(newServings: Number) => any} handler - The callback function to handle updating the servings
+   */
+  addHandlerUpdateServings(handler) {
+    this._parentElement.addEventListener('click', function (e) {
+      e.preventDefault();
+      // @ts-ignore
+      const btn = e.target.closest('.btn--update-servings');
+
+      if (!btn) return;
+
+      const updateTo = +btn.dataset.updateTo;
+
+      if (updateTo > 0) handler(updateTo);
+    });
   }
 
   /**
@@ -57,12 +81,16 @@ class RecipeView extends View {
             <span class="recipe__info-text">servings</span>
 
             <div class="recipe__info-buttons">
-              <button class="btn--tiny btn--increase-servings">
+              <button class="btn--tiny btn--update-servings" data-update-to="${
+                this._data.servings - 1
+              }">
                 <svg>
                   <use href="${icons}#icon-minus-circle"></use>
                 </svg>
               </button>
-              <button class="btn--tiny btn--increase-servings">
+              <button class="btn--tiny btn--update-servings" data-update-to="${
+                this._data.servings + 1
+              }">
                 <svg>
                   <use href="${icons}#icon-plus-circle"></use>
                 </svg>
@@ -113,13 +141,6 @@ class RecipeView extends View {
         
       `;
   }
-
-  /**
-   * @typedef {Object} Ingredient
-   * @property {number} quantity - The quantity of the ingredient
-   * @property {string} unit - The unit of the ingredient
-   * @property {string} description - The description of the ingredient
-   */
 
   /**
    * @param {Ingredient} ing

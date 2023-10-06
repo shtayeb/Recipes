@@ -11,6 +11,7 @@ import { getJson } from './helpers';
  * @property {number} [servings]
  * @property {number} [cookingTime]
  * @property {Array} [ingredients]
+ * @property {boolean} [bookmarked]
  */
 
 /**
@@ -35,6 +36,12 @@ export const state = {
     cookingTime: 0,
     ingredients: [],
   },
+
+  /**
+   * @type {Array.<Recipe>} bookmarks
+   */
+  bookmarks: [],
+
   /**
    * @type {Search}
    */
@@ -66,6 +73,12 @@ export const loadRecipe = async function (id) {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
     };
+
+    if (state.bookmarks.some(b => b.id === id)) {
+      state.recipe.bookmarked = true;
+    } else {
+      state.recipe.bookmarked = false;
+    }
 
     // console.log(state.recipe);
   } catch (error) {
@@ -100,7 +113,7 @@ export const loadSearchResults = async function (query) {
       return recipe;
     });
 
-    console.log(data);
+    state.search.page = 1;
   } catch (error) {
     throw error;
   }
@@ -131,4 +144,30 @@ export const updateServings = function (newServings) {
   });
 
   state.recipe.servings = newServings;
+};
+
+/**
+ *
+ * @param {Recipe} recipe
+ */
+export const addBookmark = function (recipe) {
+  state.bookmarks.push(recipe);
+
+  // mark current recipe as bookmarked
+  if (recipe.id === state.recipe.id) {
+    state.recipe.bookmarked = true;
+  }
+};
+
+/**
+ *
+ * @param {string} recipe
+ */
+export const deleteBookmark = function (recipe) {
+  const index = state.bookmarks.findIndex(el => (el.id = recipe));
+  state.bookmarks.splice(index, 1);
+
+  if (recipe === state.recipe.id) {
+    state.recipe.bookmarked = false;
+  }
 };

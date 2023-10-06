@@ -40,6 +40,45 @@ export default class View {
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
+  /**
+   * Render the received data
+   * @param {ViewData} data
+   */
+  update(data) {
+    // if (!data || (Array.isArray(data) && data.length === 0))
+    //   return this.renderError('No recipe found !');
+
+    this._data = data;
+
+    const newMarkup = this._generateMarkup();
+
+    // convert newMarkup to new DOM
+    const newDom = document.createRange().createContextualFragment(newMarkup);
+    const newElements = Array.from(newDom.querySelectorAll('*'));
+    const currentElements = Array.from(
+      this._parentElement.querySelectorAll('*')
+    );
+
+    // compare newDOM to the existing DOM
+    newElements.forEach((newEl, i) => {
+      const curEl = currentElements[i];
+
+      if (
+        !newEl.isEqualNode(curEl) &&
+        newEl?.firstChild.nodeValue.trim() !== ''
+      ) {
+        // update changed text
+        curEl.textContent = newEl.textContent;
+      }
+      // Update changed attribute
+      if (!newEl.isEqualNode(curEl)) {
+        Array.from(newEl.attributes).forEach(attr =>
+          curEl.setAttribute(attr.name, attr.value)
+        );
+      }
+    });
+  }
+
   _clear() {
     this._parentElement.innerHTML = '';
   }

@@ -3,7 +3,7 @@ import icons from 'url:../../img/icons.svg'; // parcel 2
 
 export default class View {
   /**
-   * @typedef {Array.<import('../model').Recipe> | import('../model').Recipe } ViewData
+   * @typedef {Array.<import('../model').Recipe> | import('../model').Recipe | import('../model').Search} ViewData
    */
 
   /**

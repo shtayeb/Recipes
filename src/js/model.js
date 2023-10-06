@@ -1,4 +1,4 @@
-import { API_KEY, API_URL } from './config';
+import { API_KEY, API_URL, RESULTS_PER_PAGE } from './config';
 import { getJson } from './helpers';
 
 /**
@@ -17,6 +17,8 @@ import { getJson } from './helpers';
  * @typedef {Object} Search
  * @property {string} query
  * @property {Array.<Recipe>} results
+ * @property {number} resultsPerPage
+ * @property {number} page
  */
 
 export const state = {
@@ -39,6 +41,8 @@ export const state = {
   search: {
     query: '',
     results: [],
+    resultsPerPage: RESULTS_PER_PAGE,
+    page: 1,
   },
 };
 
@@ -100,4 +104,18 @@ export const loadSearchResults = async function (query) {
   } catch (error) {
     throw error;
   }
+};
+
+/**
+ *
+ * @param {number} page
+ * @returns {Array<Recipe>}
+ */
+export const getSearchResultsPage = function (page = state.search.page) {
+  state.search.page = page;
+
+  const start = (page - 1) * state.search.resultsPerPage; // 0
+  const end = page * state.search.resultsPerPage; // 9
+
+  return state.search.results.slice(start, end);
 };

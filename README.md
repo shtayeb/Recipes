@@ -1,3 +1,3 @@
-- Setup a .env file
-- Add to Github
-- Host on netlify
+A recipe app built with vanilla JavaScript.
+
+[App Demo](https://forkify-v2.netlify.app/)

@@ -14,6 +14,10 @@ class BookmarksView extends View {
    */
   _parentElement = document.querySelector('.bookmarks__list');
 
+  addHanlderRender(handler) {
+    window.addEventListener('load', handler);
+  }
+
   /**
    *
    * @returns {string}

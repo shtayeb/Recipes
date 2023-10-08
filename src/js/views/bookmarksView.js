@@ -1,9 +1,9 @@
-import previewView from './previewView';
 import View from './view';
 // @ts-ignore
 import icons from 'url:../../img/icons.svg'; // parcel 2
+import previewView from './previewView';
 
-class ResultsView extends View {
+class BookmarksView extends View {
   /**
    * @type {Array<import('../model').Recipe>}
    */
@@ -12,7 +12,7 @@ class ResultsView extends View {
   /**
    * @type {HTMLElement}
    */
-  _parentElement = document.querySelector('.results');
+  _parentElement = document.querySelector('.bookmarks__list');
 
   /**
    *
@@ -23,4 +23,4 @@ class ResultsView extends View {
   }
 }
 
-export default new ResultsView();
+export default new BookmarksView();

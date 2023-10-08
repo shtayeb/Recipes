@@ -26,14 +26,17 @@ export default class View {
   /**
    * Render the received data
    * @param {ViewData} data
+   * @param {Boolean} render
    */
-  render(data) {
+  render(data, render = true) {
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError('No recipe found !');
 
     this._data = data;
 
     const markup = this._generateMarkup();
+
+    if (!render) return markup;
 
     this._clear();
 

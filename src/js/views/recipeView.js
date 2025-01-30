@@ -1,7 +1,7 @@
 // @ts-ignore
 import icons from 'url:../../img/icons.svg'; // parcel 2
 // @ts-ignore
-import { Fraction } from 'fractional';
+import Fraction from "fraction.js";
 import View from './view';
 
 /**

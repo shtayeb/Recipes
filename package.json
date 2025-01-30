@@ -2,7 +2,7 @@
   "name": "forkify-starter",
   "version": "1.0.0",
   "description": "",
-  "default":"index.html",
+  "default": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel index.html",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "core-js": "^3.33.0",
-    "fractional": "^1.0.0",
+    "fraction.js": "^5.2.1",
     "regenerator-runtime": "^0.14.0"
   }
 }
